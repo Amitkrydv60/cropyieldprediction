@@ -34,7 +34,7 @@ function Prediction() {
     try {
       setLoading(true);
 
-      const res = await fetch("https://cropyieldprediction-2-yp2s.onrender.com/api/predict",, {
+      const res = await fetch("https://cropyieldprediction-2-yp2s.onrender.com/api/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
