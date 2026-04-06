@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
+import os
 
 app = Flask(__name__)
 
@@ -11,7 +12,6 @@ encoders = joblib.load("encoders.pkl")
 def predict():
     data = request.json
 
-    # Encode categorical values
     soil_type = encoders["Soil_Type"].transform([data["Soil_Type"]])[0]
     season = encoders["Season"].transform([data["Season"]])[0]
     crop_type = encoders["Crop_Type"].transform([data["Crop_Type"]])[0]
@@ -38,4 +38,5 @@ def predict():
     })
 
 if __name__ == "__main__":
-    app.run(port=5001)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
