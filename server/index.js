@@ -18,8 +18,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api", require("./routes/predictionRoutes"));
-
+app.use("/api/predict", require("./routes/predictionRoutes"));
 // Test route
 app.get("/", (req, res) => res.send("Backend Working 🚀"));
 
