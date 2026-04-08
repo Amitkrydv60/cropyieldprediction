@@ -9,10 +9,11 @@ const predictCrop = async (req, res) => {
 
     res.json(response.data);
 
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: "Prediction failed" });
   }
+  catch (error) {
+  console.error("FULL ERROR:", error.response?.data || error.message);
+  res.status(500).json({ message: "Prediction failed" });
+}
 };
 
 module.exports = { predictCrop };
