@@ -32,26 +32,40 @@ function Prediction() {
     e.preventDefault();
 
     try {
+      if (loading) return; // ✅ prevent multiple clicks
+
       setLoading(true);
 
-      const res = await fetch("https://cropyieldprediction-2-yp2s.onrender.com/api/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          N: Number(formData.N),
-          P: Number(formData.P),
-          K: Number(formData.K),
-          Soil_pH: Number(formData.Soil_pH),
-          Soil_Moisture: Number(formData.Soil_Moisture),
-          Organic_Carbon: Number(formData.Organic_Carbon),
-          Temperature: Number(formData.Temperature),
-          Humidity: Number(formData.Humidity),
-          Rainfall: Number(formData.Rainfall),
-        }),
-      });
+      const res = await fetch(
+        "https://cropyieldprediction-5.onrender.com/predict", // ✅ DIRECT ML API
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            N: Number(formData.N),
+            P: Number(formData.P),
+            K: Number(formData.K),
+            Soil_pH: Number(formData.Soil_pH),
+            Soil_Moisture: Number(formData.Soil_Moisture),
+            Organic_Carbon: Number(formData.Organic_Carbon),
+            Temperature: Number(formData.Temperature),
+            Humidity: Number(formData.Humidity),
+            Rainfall: Number(formData.Rainfall),
+          }),
+        }
+      );
+
+      // ✅ ERROR HANDLING (VERY IMPORTANT)
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("API ERROR:", text);
+        alert("Server busy, wait 5–10 sec and try again");
+        setLoading(false);
+        return;
+      }
 
       const data = await res.json();
 
@@ -76,7 +90,7 @@ function Prediction() {
             Crop Yield Prediction
           </h2>
 
-          <form onSubmit={handleSubmit } className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
             <input type="number" name="N" placeholder="Nitrogen (N)" onChange={handleChange} className="border px-4 py-3 rounded-lg" />
             <input type="number" name="P" placeholder="Phosphorus (P)" onChange={handleChange} className="border px-4 py-3 rounded-lg" />
