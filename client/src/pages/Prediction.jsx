@@ -76,7 +76,7 @@ function Prediction() {
             Crop Yield Prediction
           </h2>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <form onSubmit={handleSubmit } className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
             <input type="number" name="N" placeholder="Nitrogen (N)" onChange={handleChange} className="border px-4 py-3 rounded-lg" />
             <input type="number" name="P" placeholder="Phosphorus (P)" onChange={handleChange} className="border px-4 py-3 rounded-lg" />
